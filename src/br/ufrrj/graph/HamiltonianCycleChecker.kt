@@ -16,4 +16,36 @@ class HamiltonianCycleChecker<NodeValueType>(private val graph: Graph<NodeValueT
         TODO("Method not implemented yet")
     }
 
+    /**
+     * Necessary condition:
+     * Did this graph is connected?
+     */
+    private fun isConnected(): Boolean {
+        TODO("Method not implemented yet")
+    }
+
+    /**
+     * Necessary condition:
+     * Did this graph is biconnected?
+     */
+    private fun isBiconnected(): Boolean {
+        TODO("Method not implemented yet")
+    }
+
+    /**
+     * Sufficient condition:
+     * Dirac's Theorem (1952)
+     */
+    private fun checkDiracTheorem(): Boolean {
+        TODO("Method not implemented yet")
+    }
+
+    /**
+     * Sufficient condition:
+     * Did this graph is Kn complete and n >= 3?
+     */
+    private fun checkIfGraphIsComplete() {
+        TODO("Method not implemented yet")
+    }
+
 }
