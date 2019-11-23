@@ -5,10 +5,8 @@ import br.ufrrj.graph.core.base.MutableGraph
 import br.ufrrj.graph.core.base.Vertex
 import br.ufrrj.graph.core.exceptions.InvalidEdge
 import br.ufrrj.graph.core.exceptions.InvalidVertex
-import java.util.*
-import kotlin.collections.HashMap
 
-class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
+data class DefaultGraph<VertexValueType>(val graphName: String): MutableGraph<VertexValueType>() {
 
     private var verticesCount = 0
     private var edgeCount = 0
@@ -76,4 +74,10 @@ class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
             = edgesMap.values.filter { it.initialVertex == vertex }
     override fun getEdgesTo(vertex: Vertex<VertexValueType>?): Collection<Edge<VertexValueType>>
             = edgesMap.values.filter { it.arrivalVertex == vertex }
+
+    override fun toString(): String {
+        val verticesString = "[Vertices]\n\t${vertices.joinToString("\n\t") { it.toString() }}"
+        val edgesString = "[Edges]\n\t${edges.joinToString("\n\t") { it.toString() }}"
+        return "---\nVisual Representation of Graph: ${graphName}\n$verticesString\n$edgesString\n---"
+    }
 }

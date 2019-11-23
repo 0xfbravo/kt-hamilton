@@ -1,7 +1,6 @@
 package br.ufrrj.graph.core.utils
 
 import br.ufrrj.graph.core.DefaultGraph
-import br.ufrrj.graph.core.base.MutableGraph
 import br.ufrrj.graph.core.exceptions.InvalidEdge
 import br.ufrrj.graph.core.exceptions.InvalidVertex
 import kotlin.random.Random
@@ -9,17 +8,18 @@ import kotlin.random.Random
 object GraphFactory {
 
     @Throws(InvalidVertex::class, InvalidEdge::class)
-    fun <VertexValueType> createSimpleGraph(vertexQuantity: Int,
+    fun <VertexValueType> createSimpleGraph(graphName:String,
+                                            vertexQuantity: Int,
                                             edgesQuantity: Int,
                                             vertexInitialValue: VertexValueType,
-                                            edgeInitialCost: Double = 0.0): MutableGraph<VertexValueType> {
+                                            edgeInitialCost: Double = 0.0): DefaultGraph<VertexValueType> {
         if (edgesQuantity > (vertexQuantity * (vertexQuantity - 1) / 2))
             throw InvalidEdge("Too many edges")
 
         if (edgesQuantity < 0)
             throw InvalidEdge("Too few edges")
 
-        val newGraph = DefaultGraph<VertexValueType>()
+        val newGraph = DefaultGraph<VertexValueType>(graphName)
 
         /* Creates all vertices in graph */
         while (newGraph.vertices.size < vertexQuantity) {
@@ -40,18 +40,19 @@ object GraphFactory {
     }
 
     @Throws(InvalidVertex::class, InvalidEdge::class)
-    fun <VertexValueType> createBipartiteGraph(firstPartitionVertexQuantity: Int,
+    fun <VertexValueType> createBipartiteGraph(graphName:String,
+                                               firstPartitionVertexQuantity: Int,
                                                secondPartitionVertexQuantity: Int,
                                                edgesQuantity: Int,
                                                vertexInitialValue: VertexValueType,
-                                               edgeInitialCost: Double = 0.0): MutableGraph<VertexValueType> {
+                                               edgeInitialCost: Double = 0.0): DefaultGraph<VertexValueType> {
         if (edgesQuantity > (firstPartitionVertexQuantity * secondPartitionVertexQuantity))
             throw InvalidEdge("Too many edges")
 
         if (secondPartitionVertexQuantity < 0)
             throw InvalidEdge("Too few edges")
 
-        val newGraph = DefaultGraph<VertexValueType>()
+        val newGraph = DefaultGraph<VertexValueType>(graphName)
 
         /* Creates all vertices in graph */
         while (newGraph.vertices.size < firstPartitionVertexQuantity + secondPartitionVertexQuantity) {
@@ -70,11 +71,12 @@ object GraphFactory {
     }
 
     @Throws(InvalidVertex::class, InvalidEdge::class)
-    fun <VertexValueType> createCompleteGraph(vertexQuantity: Int,
+    fun <VertexValueType> createCompleteGraph(graphName:String,
+                                              vertexQuantity: Int,
                                               vertexInitialValue: VertexValueType,
-                                              edgeInitialCost: Double = 0.0): MutableGraph<VertexValueType> {
+                                              edgeInitialCost: Double = 0.0): DefaultGraph<VertexValueType> {
 
-        val newGraph = DefaultGraph<VertexValueType>()
+        val newGraph = DefaultGraph<VertexValueType>(graphName)
 
         /* Creates all vertices in graph */
         while (newGraph.vertices.size < vertexQuantity) {

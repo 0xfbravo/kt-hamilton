@@ -1,6 +1,6 @@
 package br.ufrrj.graph.core.algorithms
 
-import br.ufrrj.graph.core.base.Graph
+import br.ufrrj.graph.core.DefaultGraph
 import br.ufrrj.graph.core.base.Vertex
 import br.ufrrj.graph.core.exceptions.InvalidGraph
 import java.util.*
@@ -12,9 +12,9 @@ import kotlin.random.Random
  */
 class HamiltonianChecker<VertexValueType> {
     var useBruteForce: Boolean = false
-    private var graph: Graph<VertexValueType>? = null
+    private var graph: DefaultGraph<VertexValueType>? = null
 
-    fun withGraph(graph: Graph<VertexValueType>, useBruteForce: Boolean = false): HamiltonianChecker<VertexValueType> {
+    fun withGraph(graph: DefaultGraph<VertexValueType>, useBruteForce: Boolean = false): HamiltonianChecker<VertexValueType> {
         this.graph = graph
         this.useBruteForce = useBruteForce
         return this
@@ -115,6 +115,7 @@ class HamiltonianChecker<VertexValueType> {
      */
     private fun findArticulationUsingBruteForce(): Boolean {
         graph?.let {
+            val graphCopy = it.copy()
             return true
         }
         return false
