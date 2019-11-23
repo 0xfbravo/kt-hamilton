@@ -78,6 +78,6 @@ data class DefaultGraph<VertexValueType>(val graphName: String): MutableGraph<Ve
     override fun toString(): String {
         val verticesString = "[Vertices]\n\t${vertices.joinToString("\n\t") { it.toString() }}"
         val edgesString = "[Edges]\n\t${edges.joinToString("\n\t") { it.toString() }}"
-        return "---\nVisual Representation of Graph: ${graphName}\n$verticesString\n$edgesString\n---"
+        return "---\nVisual Representation of Graph: ${graphName}(V=${vertices.size},E=${edges.size})\n$verticesString\n$edgesString\n---"
     }
 }
