@@ -24,7 +24,7 @@ class HamiltonianChecker<VertexValueType> {
         if (graph == null)
             throw InvalidGraph("The graph wasn't defined yet.")
 
-        return isConnected() && isComplete()
+        return isComplete() && isConnected() && isBiconnected()
     }
 
     /**
@@ -38,12 +38,11 @@ class HamiltonianChecker<VertexValueType> {
 
             return if (useBruteForce) findPathsUsingBruteForce() else findPathsUsingBFS()
         }
-
         return false
     }
 
     /**
-     * Try to find paths between all vertices
+     * Tries to find paths between all vertices
      * using brute force method
      */
     private fun findPathsUsingBruteForce(): Boolean {
@@ -63,7 +62,7 @@ class HamiltonianChecker<VertexValueType> {
     }
 
     /**
-     * Try to find paths between all vertices
+     * Tries to find paths between all vertices
      * using BFS Algorithm.
      */
     private fun findPathsUsingBFS(): Boolean {
@@ -92,6 +91,7 @@ class HamiltonianChecker<VertexValueType> {
 
             return visitController.all { true }
         }
+
         return false
     }
 
@@ -100,7 +100,35 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is biconnected?
      */
     private fun isBiconnected(): Boolean {
-        TODO("Method not implemented yet")
+        graph?.let {
+            if (it.edges.isEmpty())
+                return false
+
+            return if (useBruteForce) findArticulationUsingBruteForce() else findArticulationUsingDFS()
+        }
+        return false
+    }
+
+    /**
+     * Tries to find Articulation points in this
+     * graph using brute force method.
+     */
+    private fun findArticulationUsingBruteForce(): Boolean {
+        graph?.let {
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Tries to find Articulation points in this
+     * graph using DFS Algorithm.
+     */
+    private fun findArticulationUsingDFS(): Boolean {
+        graph?.let {
+            return true
+        }
+        return false
     }
 
     /**
