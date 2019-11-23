@@ -1,6 +1,6 @@
 package br.ufrrj.graph.core
 
-import br.ufrrj.graph.core.base.Node
+import br.ufrrj.graph.core.base.Vertex
 
-class DefaultNode<ValueType>(id: String,
-                             value: ValueType): Node<ValueType>(id, value)
+class DefaultVertex<ValueType>(id: String,
+                               value: ValueType): Vertex<ValueType>(id, value)
