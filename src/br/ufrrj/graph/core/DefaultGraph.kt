@@ -10,6 +10,9 @@ import kotlin.collections.HashMap
 
 class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
 
+    private var verticesCount = 0
+    private var edgeCount = 0
+
     private val vertexMap = HashMap<String, Vertex<VertexValueType>>()
     private val edgesMap = HashMap<String, Edge<VertexValueType>>()
 
@@ -32,11 +35,11 @@ class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
     // Functions to add vertices and edges to this graph
     @Throws(InvalidVertex::class)
     override fun addVertex(value: VertexValueType): Vertex<VertexValueType> {
-        val newId = UUID.randomUUID().toString()
-
+        val newId = verticesCount.toString()
         if (newId in vertexMap.keys)
             throw InvalidVertex("The vertex was already inserted in this graph.")
 
+        verticesCount++
         DefaultVertex(newId, value).apply {
             vertexMap[newId] = this
             return this
@@ -48,11 +51,11 @@ class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
         if (initialVertex !in this || arrivalVertex !in this)
             throw InvalidEdge("One of the vertices that you're trying to insert aren't in the graph")
 
-        val newId = UUID.randomUUID().toString()
-
+        val newId = edgeCount.toString()
         if (newId in edgesMap.keys)
             throw InvalidEdge("The edge was already inserted in this graph.")
 
+        edgeCount++
         DefaultEdge(newId, initialVertex, arrivalVertex, cost).apply {
             edgesMap[newId] = this
             return this

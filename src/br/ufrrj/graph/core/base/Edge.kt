@@ -10,4 +10,5 @@ abstract class Edge<VertexValueType>(val id: String,
      */
     abstract fun contains(vertex: Vertex<VertexValueType>?): Boolean
 
+    override fun toString(): String = "(${initialVertex.id}) --[$cost]--> (${arrivalVertex.id})"
 }

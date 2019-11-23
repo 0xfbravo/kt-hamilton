@@ -1,4 +1,4 @@
-package br.ufrrj.graph
+package br.ufrrj.graph.core.algorithms
 
 import br.ufrrj.graph.core.base.Graph
 

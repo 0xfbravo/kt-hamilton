@@ -1,4 +1,4 @@
-package br.ufrrj.graph
+package br.ufrrj.graph.core.utils
 
 import br.ufrrj.graph.core.DefaultGraph
 import br.ufrrj.graph.core.base.MutableGraph
@@ -13,7 +13,7 @@ object GraphFactory {
                                             edgesQuantity: Int,
                                             vertexInitialValue: VertexValueType,
                                             edgeInitialCost: Double): MutableGraph<VertexValueType> {
-        if (edgesQuantity < (vertexQuantity * (vertexQuantity - 1) / 2))
+        if (edgesQuantity > (vertexQuantity * (vertexQuantity - 1) / 2))
             throw InvalidEdge("Too many edges")
 
         if (edgesQuantity < 0)

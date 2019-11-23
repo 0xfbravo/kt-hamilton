@@ -15,5 +15,5 @@ abstract class Vertex<VertexValueType>(val id: String,
      */
     fun contains(value: VertexValueType?) = value == value
 
-    override fun toString(): String = "${this.javaClass.canonicalName} :: ID = ${this.id} | Value = ${this.value}"
+    override fun toString(): String = "(ID = ${this.id} | Value = ${this.value})"
 }

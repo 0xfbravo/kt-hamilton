@@ -11,6 +11,4 @@ class DefaultEdge<VertexValueType>(id: String = UUID.randomUUID().toString(),
 
     override fun contains(vertex: Vertex<VertexValueType>?): Boolean
         = vertex == initialVertex || vertex == arrivalVertex
-
-    override fun toString(): String = "(${initialVertex.id}) --[$cost]--> (${arrivalVertex.id})"
 }

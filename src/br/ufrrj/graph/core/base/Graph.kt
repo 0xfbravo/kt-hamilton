@@ -36,6 +36,8 @@ abstract class Graph<VertexValueType>: Iterable<Vertex<VertexValueType>> {
     abstract fun contains(edge: Edge<VertexValueType>): Boolean
 
     override fun toString(): String {
-        return super.toString()
+        val verticesString = "[Vertices]\n\t${vertices.joinToString("\n\t") { it.toString() }}"
+        val edgesString = "[Edges]\n\t${edges.joinToString("\n\t") { it.toString() }}"
+        return "---\nVisual Representation of Graph: ${super.toString()}\n$verticesString\n$edgesString\n---"
     }
 }
