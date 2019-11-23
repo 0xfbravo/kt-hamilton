@@ -7,7 +7,7 @@ abstract class Vertex<VertexValueType>(val id: String,
      * Returns all the vertices reachable from
      * this vertex.
      */
-    fun getNeighbors(graph: Graph<VertexValueType>) = graph.getEdgesFrom(this) + graph.getEdgesTo(this)
+    fun getNeighbors(graph: Graph<VertexValueType>) = (graph.getEdgesFrom(this) + graph.getEdgesTo(this))
 
     /**
      * Checks if this vertex value is equal

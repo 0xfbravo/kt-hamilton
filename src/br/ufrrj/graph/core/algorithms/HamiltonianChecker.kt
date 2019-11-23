@@ -24,7 +24,7 @@ class HamiltonianChecker<VertexValueType> {
         if (graph == null)
             throw InvalidGraph("The graph wasn't defined yet.")
 
-        return isComplete() && isConnected() && isBiconnected()
+        return isComplete() && checkDiracTheorem() && isConnected() && isBiconnected()
     }
 
     /**
@@ -143,7 +143,6 @@ class HamiltonianChecker<VertexValueType> {
             val n = it.vertices.size
             return ((n * (n - 1)) / 2) == it.edges.size
         }
-
         return false
     }
 
@@ -152,7 +151,16 @@ class HamiltonianChecker<VertexValueType> {
      * Dirac's Theorem (1952)
      */
     private fun checkDiracTheorem(): Boolean {
-        TODO("Method not implemented yet")
+        graph?.let {
+            if (it.vertices.size < 3)
+                return false
+
+            val n = it.vertices.size
+            val degrees = it.vertices.map { vertex -> vertex.getNeighbors(it).size }
+            val minDegree = degrees.min()!!
+            return minDegree >= n/2
+        }
+        return false
     }
 
 }

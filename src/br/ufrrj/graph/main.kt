@@ -26,7 +26,7 @@ fun main() {
 //    }
 
     // Measure Complete Graph
-    val completeGraph = GraphFactory.createCompleteGraph(1000, 0)
+    val completeGraph = GraphFactory.createCompleteGraph(5, 0)
     println(completeGraph)
     measureTimeMillis({ time -> println("Execution Time: ${time}ms") }) {
         println("Complete Graph(V=3,E=6)")
