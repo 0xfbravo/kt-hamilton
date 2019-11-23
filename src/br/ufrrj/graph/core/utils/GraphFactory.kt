@@ -12,7 +12,7 @@ object GraphFactory {
     fun <VertexValueType> createSimpleGraph(vertexQuantity: Int,
                                             edgesQuantity: Int,
                                             vertexInitialValue: VertexValueType,
-                                            edgeInitialCost: Double): MutableGraph<VertexValueType> {
+                                            edgeInitialCost: Double = 0.0): MutableGraph<VertexValueType> {
         if (edgesQuantity > (vertexQuantity * (vertexQuantity - 1) / 2))
             throw InvalidEdge("Too many edges")
 
@@ -43,9 +43,44 @@ object GraphFactory {
     }
 
     @Throws(InvalidVertex::class, InvalidEdge::class)
+    fun <VertexValueType> createBipartiteGraph(firstPartitionVertexQuantity: Int,
+                                               secondPartitionVertexQuantity: Int,
+                                               edgesQuantity: Int,
+                                               vertexInitialValue: VertexValueType,
+                                               edgeInitialCost: Double = 0.0): MutableGraph<VertexValueType> {
+        if (edgesQuantity > (firstPartitionVertexQuantity * secondPartitionVertexQuantity))
+            throw InvalidEdge("Too many edges")
+
+        if (secondPartitionVertexQuantity < 0)
+            throw InvalidEdge("Too few edges")
+
+        val newGraph = DefaultGraph<VertexValueType>()
+
+        /* Creates all vertices in graph */
+        while (newGraph.vertices.size < firstPartitionVertexQuantity + secondPartitionVertexQuantity) {
+            newGraph.addVertex(vertexInitialValue)
+        }
+
+        /* Creates random edges between vertices */
+        while (newGraph.edges.size < secondPartitionVertexQuantity) {
+            val randomInitialVertex = newGraph.vertices[Random.nextInt(firstPartitionVertexQuantity)]
+            val randomArrivalVertex = newGraph.vertices[firstPartitionVertexQuantity + Random.nextInt(firstPartitionVertexQuantity)]
+
+            if (randomInitialVertex != randomArrivalVertex) {
+                try { newGraph.addEdge(randomInitialVertex, randomArrivalVertex, edgeInitialCost) }
+                catch (e : InvalidEdge) {
+                    e.printStackTrace()
+                    continue
+                }
+            }
+        }
+        return newGraph
+    }
+
+    @Throws(InvalidVertex::class, InvalidEdge::class)
     fun <VertexValueType> createCompleteGraph(vertexQuantity: Int,
                                               vertexInitialValue: VertexValueType,
-                                              edgeInitialCost: Double): MutableGraph<VertexValueType> {
+                                              edgeInitialCost: Double = 0.0): MutableGraph<VertexValueType> {
 
         val newGraph = DefaultGraph<VertexValueType>()
 

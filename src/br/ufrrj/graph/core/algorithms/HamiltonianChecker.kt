@@ -7,11 +7,13 @@ import br.ufrrj.graph.core.exceptions.InvalidGraph
  * Hamiltonian Cycle checker
  * @author Fellipe Bravo
  */
-class HamiltonianChecker<VertexValueType>(private val useBruteForce: Boolean = false) {
+class HamiltonianChecker<VertexValueType> {
+    var useBruteForce: Boolean = false
     private var graph: Graph<VertexValueType>? = null
 
-    fun withGraph(graph: Graph<VertexValueType>): HamiltonianChecker<VertexValueType> {
+    fun withGraph(graph: Graph<VertexValueType>, useBruteForce: Boolean = false): HamiltonianChecker<VertexValueType> {
         this.graph = graph
+        this.useBruteForce = useBruteForce
         return this
     }
 
