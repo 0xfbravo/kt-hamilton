@@ -74,4 +74,6 @@ class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
             = edgesMap.values.filter { it.initialVertex == from && it.arrivalVertex == to }
     override fun getEdgesFrom(vertex: Vertex<VertexValueType>?): Collection<Edge<VertexValueType>>
             = edgesMap.values.filter { it.initialVertex == vertex }
+    override fun getEdgesTo(vertex: Vertex<VertexValueType>?): Collection<Edge<VertexValueType>>
+            = edgesMap.values.filter { it.initialVertex == vertex }
 }

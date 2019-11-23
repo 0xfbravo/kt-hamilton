@@ -1,13 +1,13 @@
 package br.ufrrj.graph.core.base
 
 abstract class Vertex<VertexValueType>(val id: String,
-                                     var value: VertexValueType? = null) {
+                                       var value: VertexValueType? = null) {
 
     /**
-     * Returns all the edges reachable from
+     * Returns all the vertices reachable from
      * this vertex.
      */
-    fun getEdges(graph: Graph<VertexValueType>) = graph.getEdgesFrom(this)
+    fun getNeighbors(graph: Graph<VertexValueType>) = graph.getEdgesFrom(this) + graph.getEdgesTo(this)
 
     /**
      * Checks if this vertex value is equal

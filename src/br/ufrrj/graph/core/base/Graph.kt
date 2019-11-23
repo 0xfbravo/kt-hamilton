@@ -11,6 +11,11 @@ abstract class Graph<VertexValueType>: Iterable<Vertex<VertexValueType>> {
     abstract fun getEdgesFrom(vertex: Vertex<VertexValueType>?): Collection<Edge<VertexValueType>>
 
     /**
+     * Gets edges from a certain vertex.
+     */
+    abstract fun getEdgesTo(vertex: Vertex<VertexValueType>?): Collection<Edge<VertexValueType>>
+
+    /**
      * Gets a vertex by ID or returns a null value.
      */
     abstract fun getVertexById(id: String): Vertex<VertexValueType>?

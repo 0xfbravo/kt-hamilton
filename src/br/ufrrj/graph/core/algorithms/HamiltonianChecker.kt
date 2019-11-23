@@ -1,17 +1,20 @@
 package br.ufrrj.graph.core.algorithms
 
 import br.ufrrj.graph.core.base.Graph
+import br.ufrrj.graph.core.base.Vertex
 import br.ufrrj.graph.core.exceptions.InvalidGraph
+import java.util.*
+import kotlin.random.Random
 
 /**
  * Hamiltonian Cycle checker
  * @author Fellipe Bravo
  */
 class HamiltonianChecker<VertexValueType> {
-    var useBruteForce: Boolean = true
+    var useBruteForce: Boolean = false
     private var graph: Graph<VertexValueType>? = null
 
-    fun withGraph(graph: Graph<VertexValueType>, useBruteForce: Boolean = true): HamiltonianChecker<VertexValueType> {
+    fun withGraph(graph: Graph<VertexValueType>, useBruteForce: Boolean = false): HamiltonianChecker<VertexValueType> {
         this.graph = graph
         this.useBruteForce = useBruteForce
         return this
@@ -33,13 +36,17 @@ class HamiltonianChecker<VertexValueType> {
             if (it.edges.isEmpty())
                 return false
 
-            return if (useBruteForce) findPathsBruteForce() else findPathsOptimized()
+            return if (useBruteForce) findPathsUsingBruteForce() else findPathsUsingBFS()
         }
 
         return false
     }
 
-    private fun findPathsBruteForce(): Boolean {
+    /**
+     * Try to find paths between all vertices
+     * using brute force method
+     */
+    private fun findPathsUsingBruteForce(): Boolean {
         graph?.let {
             for (initialVertexIndex in it.vertices.indices) {
                 val initialVertex = it.vertices[initialVertexIndex]
@@ -55,8 +62,37 @@ class HamiltonianChecker<VertexValueType> {
         return false
     }
 
-    private fun findPathsOptimized(): Boolean {
-        return true
+    /**
+     * Try to find paths between all vertices
+     * using BFS Algorithm.
+     */
+    private fun findPathsUsingBFS(): Boolean {
+        graph?.let {
+            val visitController = BooleanArray(it.vertices.size) { false }
+            val queue = LinkedList<Vertex<VertexValueType>>()
+
+            val firstVertexIndex = Random.nextInt(it.vertices.size)
+            visitController[firstVertexIndex] = true
+            queue.add(it.vertices[firstVertexIndex])
+
+            var dequeuedVertex: Vertex<VertexValueType>
+            while (queue.isNotEmpty()) {
+                dequeuedVertex = queue.poll()
+                val neighbors = dequeuedVertex.getNeighbors(it).toList().iterator()
+                while (neighbors.hasNext()) {
+                    val nextVertex = neighbors.next().arrivalVertex
+                    val nextVertexIndex = it.vertices.indexOf(nextVertex)
+
+                    if (!visitController[nextVertexIndex]) {
+                        visitController[nextVertexIndex] = true
+                        queue.add(nextVertex)
+                    }
+                }
+            }
+
+            return visitController.all { true }
+        }
+        return false
     }
 
     /**
