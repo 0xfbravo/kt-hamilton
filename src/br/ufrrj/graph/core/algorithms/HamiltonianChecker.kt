@@ -8,10 +8,10 @@ import br.ufrrj.graph.core.exceptions.InvalidGraph
  * @author Fellipe Bravo
  */
 class HamiltonianChecker<VertexValueType> {
-    var useBruteForce: Boolean = false
+    var useBruteForce: Boolean = true
     private var graph: Graph<VertexValueType>? = null
 
-    fun withGraph(graph: Graph<VertexValueType>, useBruteForce: Boolean = false): HamiltonianChecker<VertexValueType> {
+    fun withGraph(graph: Graph<VertexValueType>, useBruteForce: Boolean = true): HamiltonianChecker<VertexValueType> {
         this.graph = graph
         this.useBruteForce = useBruteForce
         return this
@@ -21,7 +21,7 @@ class HamiltonianChecker<VertexValueType> {
         if (graph == null)
             throw InvalidGraph("The graph wasn't defined yet.")
 
-        return isComplete()
+        return isConnected() && isComplete()
     }
 
     /**
@@ -29,7 +29,34 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is connected?
      */
     private fun isConnected(): Boolean {
-        TODO("Method not implemented yet")
+        graph?.let {
+            if (it.edges.isEmpty())
+                return false
+
+            return if (useBruteForce) findPathsBruteForce() else findPathsOptimized()
+        }
+
+        return false
+    }
+
+    private fun findPathsBruteForce(): Boolean {
+        graph?.let {
+            for (initialVertexIndex in it.vertices.indices) {
+                val initialVertex = it.vertices[initialVertexIndex]
+                for (arrivalVertexIndex in (initialVertexIndex+1 until it.vertices.size)) {
+                    val arrivalVertex = it.vertices[arrivalVertexIndex]
+                    val edgesBetween = it.getEdgesByVertex(initialVertex, arrivalVertex)
+                    if (edgesBetween.isEmpty())
+                        return false
+                }
+            }
+            return true
+        }
+        return false
+    }
+
+    private fun findPathsOptimized(): Boolean {
+        return true
     }
 
     /**

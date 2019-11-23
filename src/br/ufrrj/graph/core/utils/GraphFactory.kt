@@ -82,10 +82,10 @@ object GraphFactory {
         }
 
         /* Creates edges between all vertices */
-        for (vertexAIndex in newGraph.vertices.indices) {
-            val initialVertex = newGraph.vertices[vertexAIndex]
-            for (vertexBIndex in (vertexAIndex+1 until newGraph.vertices.size)) {
-                val arrivalVertex = newGraph.vertices[vertexBIndex]
+        for (initialVertexIndex in newGraph.vertices.indices) {
+            val initialVertex = newGraph.vertices[initialVertexIndex]
+            for (arrivalVertexIndex in (initialVertexIndex+1 until newGraph.vertices.size)) {
+                val arrivalVertex = newGraph.vertices[arrivalVertexIndex]
 
                 try { newGraph.addEdge(initialVertex, arrivalVertex, edgeInitialCost)}
                 catch (e: InvalidEdge) { continue }

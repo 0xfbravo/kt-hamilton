@@ -17,21 +17,21 @@ fun main() {
     // Measure Simple Graph
     measureTimeMillis({ time -> println("Execution Time: $time") }) {
         println("Simple Graph(V=2,E=1)")
-        hamiltonianChecker.withGraph(simpleGraph).execute()
         println("using brute force? ${hamiltonianChecker.useBruteForce}")
+        println("is hamiltonian? ${hamiltonianChecker.withGraph(simpleGraph).execute()}")
     }
 
     // Measure Bipartite Graph
     measureTimeMillis({ time -> println("Execution Time: $time") }) {
         println("Bipartite Graph(V=4,E=4)")
-        hamiltonianChecker.withGraph(bipartiteGraph).execute()
         println("using brute force? ${hamiltonianChecker.useBruteForce}")
+        println("is hamiltonian? ${hamiltonianChecker.withGraph(bipartiteGraph).execute()}")
     }
 
     // Measure Complete Graph
     measureTimeMillis({ time -> println("Execution Time: $time") }) {
-        println("Simple Graph(V=3,E=1)")
-        hamiltonianChecker.withGraph(completeGraph).execute()
+        println("Complete Graph(V=3,E=6)")
         println("using brute force? ${hamiltonianChecker.useBruteForce}")
+        println("is hamiltonian? ${hamiltonianChecker.withGraph(completeGraph).execute()}")
     }
 }
