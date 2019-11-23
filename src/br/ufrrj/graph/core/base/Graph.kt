@@ -1,29 +1,29 @@
 package br.ufrrj.graph.core.base
 
-abstract class Graph<NodeValueType>: Iterable<Node<NodeValueType>> {
+abstract class Graph<VertexValueType>: Iterable<Vertex<VertexValueType>> {
 
-    abstract val nodes: Collection<Node<NodeValueType>>
-    abstract val edges: Collection<Edge<NodeValueType>>
-
-    /**
-     * Gets edges from a certain node.
-     */
-    abstract fun getEdgesFrom(node: Node<NodeValueType>?): Collection<Edge<NodeValueType>>
+    abstract val vertices: List<Vertex<VertexValueType>>
+    abstract val edges: List<Edge<VertexValueType>>
 
     /**
-     * Gets a node by ID or returns a null value.
+     * Gets edges from a certain vertex.
      */
-    abstract fun getNodeById(id: String): Node<NodeValueType>?
+    abstract fun getEdgesFrom(vertex: Vertex<VertexValueType>?): Collection<Edge<VertexValueType>>
 
     /**
-     * Gets all edges between two nodes.
+     * Gets a vertex by ID or returns a null value.
      */
-    abstract fun getEdgesByNodes(from: Node<NodeValueType>, to: Node<NodeValueType>): Collection<Edge<NodeValueType>>
+    abstract fun getVertexById(id: String): Vertex<VertexValueType>?
 
     /**
-     * Checks if this graph contains a certain node.
+     * Gets all edges between two vertices.
      */
-    abstract fun contains(node: Node<NodeValueType>?): Boolean
+    abstract fun getEdgesByVertex(from: Vertex<VertexValueType>, to: Vertex<VertexValueType>): Collection<Edge<VertexValueType>>
+
+    /**
+     * Checks if this graph contains a certain vertex.
+     */
+    abstract fun contains(vertex: Vertex<VertexValueType>?): Boolean
 
     /**
      * Checks if this graph contains a certain id.
@@ -33,5 +33,9 @@ abstract class Graph<NodeValueType>: Iterable<Node<NodeValueType>> {
     /**
      * Checks if this graph contains a certain edge.
      */
-    abstract fun contains(edge: Edge<NodeValueType>): Boolean
+    abstract fun contains(edge: Edge<VertexValueType>): Boolean
+
+    override fun toString(): String {
+        return super.toString()
+    }
 }

@@ -6,7 +6,7 @@ import br.ufrrj.graph.core.base.Graph
  * Hamiltonian Cycle checker
  * @author Fellipe Bravo
  */
-class HamiltonianCycleChecker<NodeValueType>(private val graph: Graph<NodeValueType>) {
+class HamiltonianCycleChecker<VertexValueType>(private val graph: Graph<VertexValueType>) {
 
     /**
      * Checks if there's hamiltonian cycle

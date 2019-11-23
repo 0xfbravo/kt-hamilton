@@ -1,37 +1,37 @@
 package br.ufrrj.graph.core.base
 
-abstract class MutableGraph<NodeValueType>: Graph<NodeValueType>() {
+abstract class MutableGraph<VertexValueType>: Graph<VertexValueType>() {
 
     /**
      * Adds an new edge to the graph.
      */
-    abstract fun addEdge(initialNode: Node<NodeValueType>, arrivalNode: Node<NodeValueType>, cost: Double): Edge<NodeValueType>
+    abstract fun addEdge(initialVertex: Vertex<VertexValueType>, arrivalVertex: Vertex<VertexValueType>, cost: Double): Edge<VertexValueType>
 
     /**
      * Adds a new bidirectional edge to the graph.
-     * By default, the cost from arrival node to initial node
-     * is the same of initial node to arrival node;
+     * By default, the cost from arrival vertex to initial vertex
+     * is the same of initial vertex to arrival vertex;
      * cost(x->y) == cost(y->x)
      */
-    abstract fun addBidirectionalEdge(initialNode: Node<NodeValueType>,
-                                      arrivalNode: Node<NodeValueType>,
+    abstract fun addBidirectionalEdge(initialVertex: Vertex<VertexValueType>,
+                                      arrivalVertex: Vertex<VertexValueType>,
                                       costInitialToArrival: Double,
-                                      costArrivalToInitial: Double = costInitialToArrival): Pair<Edge<NodeValueType>, Edge<NodeValueType>>
+                                      costArrivalToInitial: Double = costInitialToArrival): Pair<Edge<VertexValueType>, Edge<VertexValueType>>
 
     /**
-     * Removes a node from the graph if it is exists.
+     * Removes a vertex from the graph if it is exists.
      */
-    abstract fun removeNode(id: String): Node<NodeValueType>?
-    fun removeNode(node: Node<NodeValueType>) = removeNode(node.id)
+    abstract fun removeVertex(id: String): Vertex<VertexValueType>?
+    fun removeVertex(vertex: Vertex<VertexValueType>) = removeVertex(vertex.id)
 
     /**
-     * Adds a node to the graph with a certain value.
+     * Adds a vertex to the graph with a certain value.
      */
-    abstract fun addNode(value: NodeValueType): Node<NodeValueType>
+    abstract fun addVertex(value: VertexValueType): Vertex<VertexValueType>
 
     /**
      * Removes an edge from the graph if it is exists.
      */
-    abstract fun removeEdge(id: String): Edge<NodeValueType>?
-    fun removeEdge(edge: Edge<NodeValueType>) = removeEdge(edge.id)
+    abstract fun removeEdge(id: String): Edge<VertexValueType>?
+    fun removeEdge(edge: Edge<VertexValueType>) = removeEdge(edge.id)
 }

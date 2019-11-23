@@ -2,70 +2,70 @@ package br.ufrrj.graph.core
 
 import br.ufrrj.graph.core.base.Edge
 import br.ufrrj.graph.core.base.MutableGraph
-import br.ufrrj.graph.core.base.Node
+import br.ufrrj.graph.core.base.Vertex
 import br.ufrrj.graph.core.exceptions.InvalidEdge
-import br.ufrrj.graph.core.exceptions.InvalidNode
+import br.ufrrj.graph.core.exceptions.InvalidVertex
 import java.util.*
 import kotlin.collections.HashMap
 
-class DefaultGraph<NodeValueType>: MutableGraph<NodeValueType>() {
+class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
 
-    private val nodesMap = HashMap<String, Node<NodeValueType>>()
-    private val edgesMap = HashMap<String, Edge<NodeValueType>>()
+    private val vertexMap = HashMap<String, Vertex<VertexValueType>>()
+    private val edgesMap = HashMap<String, Edge<VertexValueType>>()
 
-    override val nodes: Collection<Node<NodeValueType>>
-        get() = nodesMap.values.toList()
-    override val edges: Collection<Edge<NodeValueType>>
+    override val vertices: List<Vertex<VertexValueType>>
+        get() = vertexMap.values.toList()
+    override val edges: List<Edge<VertexValueType>>
         get() = edgesMap.values.toList()
 
-    override fun iterator(): Iterator<Node<NodeValueType>> = nodesMap.values.iterator()
+    override fun iterator(): Iterator<Vertex<VertexValueType>> = vertexMap.values.iterator()
 
-    // Functions to remove nodes and edges
-    override fun removeNode(id: String): Node<NodeValueType>? = nodesMap.remove(id)
-    override fun removeEdge(id: String): Edge<NodeValueType>? = edgesMap.remove(id)
+    // Functions to remove vertices and edges
+    override fun removeVertex(id: String): Vertex<VertexValueType>? = vertexMap.remove(id)
+    override fun removeEdge(id: String): Edge<VertexValueType>? = edgesMap.remove(id)
 
-    // Functions to check if this graph contains an certain id, node or edge
-    override fun contains(id: String): Boolean = id in nodesMap.keys || id in edgesMap.keys
-    override fun contains(node: Node<NodeValueType>?): Boolean = node in nodesMap.values
-    override fun contains(edge: Edge<NodeValueType>): Boolean = edge in edgesMap.values
+    // Functions to check if this graph contains an certain id, vertex or edge
+    override fun contains(id: String): Boolean = id in vertexMap.keys || id in edgesMap.keys
+    override fun contains(vertex: Vertex<VertexValueType>?): Boolean = vertex in vertexMap.values
+    override fun contains(edge: Edge<VertexValueType>): Boolean = edge in edgesMap.values
 
-    // Functions to add nodes and edges to this graph
-    @Throws(InvalidNode::class)
-    override fun addNode(value: NodeValueType): Node<NodeValueType> {
+    // Functions to add vertices and edges to this graph
+    @Throws(InvalidVertex::class)
+    override fun addVertex(value: VertexValueType): Vertex<VertexValueType> {
         val newId = UUID.randomUUID().toString()
 
-        if (newId in nodesMap.keys)
-            throw InvalidNode("The node was already inserted in this graph.")
+        if (newId in vertexMap.keys)
+            throw InvalidVertex("The vertex was already inserted in this graph.")
 
-        DefaultNode(newId, value).apply {
-            nodesMap[newId] = this
+        DefaultVertex(newId, value).apply {
+            vertexMap[newId] = this
             return this
         }
     }
 
     @Throws(InvalidEdge::class)
-    override fun addEdge(initialNode: Node<NodeValueType>, arrivalNode: Node<NodeValueType>, cost: Double): Edge<NodeValueType> {
-        if (initialNode !in this || arrivalNode !in this)
-            throw InvalidEdge("One of the nodes that you're trying to insert aren't in the graph")
+    override fun addEdge(initialVertex: Vertex<VertexValueType>, arrivalVertex: Vertex<VertexValueType>, cost: Double): Edge<VertexValueType> {
+        if (initialVertex !in this || arrivalVertex !in this)
+            throw InvalidEdge("One of the vertices that you're trying to insert aren't in the graph")
 
         val newId = UUID.randomUUID().toString()
 
         if (newId in edgesMap.keys)
             throw InvalidEdge("The edge was already inserted in this graph.")
 
-        DefaultEdge(newId, initialNode, arrivalNode, cost).apply {
+        DefaultEdge(newId, initialVertex, arrivalVertex, cost).apply {
             edgesMap[newId] = this
             return this
         }
     }
 
-    override fun addBidirectionalEdge(initialNode: Node<NodeValueType>, arrivalNode: Node<NodeValueType>,
-                                      costInitialToArrival: Double, costArrivalToInitial: Double): Pair<Edge<NodeValueType>, Edge<NodeValueType>>
-            = Pair(addEdge(initialNode, arrivalNode, costArrivalToInitial), addEdge(arrivalNode, initialNode, costArrivalToInitial))
+    override fun addBidirectionalEdge(initialVertex: Vertex<VertexValueType>, arrivalVertex: Vertex<VertexValueType>,
+                                      costInitialToArrival: Double, costArrivalToInitial: Double): Pair<Edge<VertexValueType>, Edge<VertexValueType>>
+            = Pair(addEdge(initialVertex, arrivalVertex, costArrivalToInitial), addEdge(arrivalVertex, initialVertex, costArrivalToInitial))
 
-    override fun getNodeById(id: String): Node<NodeValueType>? = nodesMap[id]
-    override fun getEdgesByNodes(from: Node<NodeValueType>, to: Node<NodeValueType>): Collection<Edge<NodeValueType>>
-            = edgesMap.values.filter { it.initialNode == from && it.arrivalNode == to }
-    override fun getEdgesFrom(node: Node<NodeValueType>?): Collection<Edge<NodeValueType>>
-            = edgesMap.values.filter { it.initialNode == node }
+    override fun getVertexById(id: String): Vertex<VertexValueType>? = vertexMap[id]
+    override fun getEdgesByVertex(from: Vertex<VertexValueType>, to: Vertex<VertexValueType>): Collection<Edge<VertexValueType>>
+            = edgesMap.values.filter { it.initialVertex == from && it.arrivalVertex == to }
+    override fun getEdgesFrom(vertex: Vertex<VertexValueType>?): Collection<Edge<VertexValueType>>
+            = edgesMap.values.filter { it.initialVertex == vertex }
 }
