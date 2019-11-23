@@ -33,10 +33,7 @@ object GraphFactory {
 
             if (randomInitialVertex != randomArrivalVertex) {
                 try { newGraph.addEdge(randomInitialVertex, randomArrivalVertex, edgeInitialCost) }
-                catch (e : InvalidEdge) {
-                    e.printStackTrace()
-                    continue
-                }
+                catch (e : InvalidEdge) {}
             }
         }
         return newGraph
@@ -62,17 +59,12 @@ object GraphFactory {
         }
 
         /* Creates random edges between vertices */
-        while (newGraph.edges.size < secondPartitionVertexQuantity) {
+        while (newGraph.edges.size < edgesQuantity) {
             val randomInitialVertex = newGraph.vertices[Random.nextInt(firstPartitionVertexQuantity)]
             val randomArrivalVertex = newGraph.vertices[firstPartitionVertexQuantity + Random.nextInt(firstPartitionVertexQuantity)]
 
-            if (randomInitialVertex != randomArrivalVertex) {
-                try { newGraph.addEdge(randomInitialVertex, randomArrivalVertex, edgeInitialCost) }
-                catch (e : InvalidEdge) {
-                    e.printStackTrace()
-                    continue
-                }
-            }
+            try { newGraph.addEdge(randomInitialVertex, randomArrivalVertex, edgeInitialCost) }
+            catch (e : InvalidEdge) { continue }
         }
         return newGraph
     }
@@ -96,10 +88,7 @@ object GraphFactory {
                 val arrivalVertex = newGraph.vertices[vertexBIndex]
 
                 try { newGraph.addEdge(initialVertex, arrivalVertex, edgeInitialCost)}
-                catch (e: InvalidEdge) {
-                    e.printStackTrace()
-                    continue
-                }
+                catch (e: InvalidEdge) { continue }
             }
         }
         return newGraph

@@ -51,6 +51,9 @@ class DefaultGraph<VertexValueType>: MutableGraph<VertexValueType>() {
         if (initialVertex !in this || arrivalVertex !in this)
             throw InvalidEdge("One of the vertices that you're trying to insert aren't in the graph")
 
+        if (getEdgesFrom(initialVertex).any { it.contains(arrivalVertex) } || getEdgesFrom(arrivalVertex).any { it.contains(initialVertex) })
+            throw InvalidEdge("The edge was already inserted in this graph.")
+
         val newId = edgeCount.toString()
         if (newId in edgesMap.keys)
             throw InvalidEdge("The edge was already inserted in this graph.")
