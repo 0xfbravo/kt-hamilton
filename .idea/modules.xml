@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/UfrrjGraph.iml" filepath="$PROJECT_DIR$/.idea/modules/UfrrjGraph.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/UfrrjGraph.main.iml" filepath="$PROJECT_DIR$/.idea/modules/UfrrjGraph.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/UfrrjGraph.test.iml" filepath="$PROJECT_DIR$/.idea/modules/UfrrjGraph.test.iml" />
+    </modules>
+  </component>
+</project>
