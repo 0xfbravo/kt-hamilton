@@ -3,6 +3,7 @@ package br.ufrrj.graph.core.algorithms
 import br.ufrrj.graph.core.DefaultGraph
 import br.ufrrj.graph.core.base.Vertex
 import br.ufrrj.graph.core.exceptions.InvalidGraph
+import br.ufrrj.graph.core.utils.measureTimeMillis
 import java.util.*
 import kotlin.random.Random
 
@@ -11,7 +12,7 @@ import kotlin.random.Random
  * @author Fellipe Bravo
  */
 class HamiltonianChecker<VertexValueType> {
-    var useBruteForce: Boolean = false
+    private var useBruteForce: Boolean = false
     private var graph: DefaultGraph<VertexValueType>? = null
 
     fun withGraph(graph: DefaultGraph<VertexValueType>, useBruteForce: Boolean = false): HamiltonianChecker<VertexValueType> {
@@ -24,7 +25,45 @@ class HamiltonianChecker<VertexValueType> {
         if (graph == null)
             throw InvalidGraph("The graph wasn't defined yet.")
 
-        return isComplete() && checkDiracTheorem() && isConnected() && isBiconnected()
+        println("Using brute force? $useBruteForce")
+
+        val isComplete = isComplete()
+        print(if (isComplete) "✓" else "✗")
+        println(" ($isComplete)")
+
+        if (!isComplete) {
+            println("Is this graph hamiltonian? ✗ ($isComplete)")
+            return false
+        }
+
+        val checkDiracTheorem = checkDiracTheorem()
+        print(if (checkDiracTheorem) "✓" else "✗")
+        println(" ($checkDiracTheorem)")
+
+        if (!checkDiracTheorem) {
+            println("Is this graph hamiltonian? ✗ ($checkDiracTheorem)")
+            return false
+        }
+
+        val isConnected = isConnected()
+        print(if (isConnected) "✓" else "✗")
+        println(" ($isConnected)")
+
+        if (!isConnected) {
+            println("Is this graph hamiltonian? ✗ ($isConnected)")
+            return false
+        }
+
+        val isBiconnected = isBiconnected()
+        print(if (isBiconnected) "✓" else "✗")
+        println(" ($isBiconnected)")
+
+        if (!isBiconnected) {
+            println("Is this graph hamiltonian? ✗ ($isBiconnected)")
+            return false
+        }
+
+        return true
     }
 
     /**
@@ -32,6 +71,7 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is connected?
      */
     private fun isConnected(): Boolean {
+        print("Checking if graph is connected... ")
         graph?.let {
             if (it.edges.isEmpty())
                 return false
@@ -45,7 +85,7 @@ class HamiltonianChecker<VertexValueType> {
      * Tries to find paths between all vertices
      * using brute force method
      */
-    private fun findPathsUsingBruteForce(): Boolean {
+    private fun findPathsUsingBruteForce(): Boolean  {
         graph?.let {
             for (initialVertexIndex in it.vertices.indices) {
                 val initialVertex = it.vertices[initialVertexIndex]
@@ -100,6 +140,7 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is biconnected?
      */
     private fun isBiconnected(): Boolean {
+        print("Checking if graph is biconnected... ")
         graph?.let {
             if (it.edges.isEmpty())
                 return false
@@ -137,6 +178,7 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is Kn complete and n >= 3?
      */
     private fun isComplete(): Boolean {
+        print("Checking if graph is complete... ")
         graph?.let {
             if (it.vertices.size < 3)
                 return false
@@ -152,6 +194,7 @@ class HamiltonianChecker<VertexValueType> {
      * Dirac's Theorem (1952)
      */
     private fun checkDiracTheorem(): Boolean {
+        print("Checking of Dirac's Theorem... ")
         graph?.let {
             if (it.vertices.size < 3)
                 return false

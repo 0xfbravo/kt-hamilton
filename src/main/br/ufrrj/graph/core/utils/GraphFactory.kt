@@ -9,11 +9,11 @@ object GraphFactory {
 
     @Throws(InvalidVertex::class, InvalidEdge::class)
     fun <VertexValueType> createSimpleGraph(graphName:String,
-                                            vertexQuantity: Int,
+                                            verticesQuantity: Int,
                                             edgesQuantity: Int,
                                             vertexInitialValue: VertexValueType,
                                             edgeInitialCost: Double = 0.0): DefaultGraph<VertexValueType> {
-        if (edgesQuantity > (vertexQuantity * (vertexQuantity - 1) / 2))
+        if (edgesQuantity > (verticesQuantity * (verticesQuantity - 1) / 2))
             throw InvalidEdge("Too many edges")
 
         if (edgesQuantity < 0)
@@ -22,14 +22,14 @@ object GraphFactory {
         val newGraph = DefaultGraph<VertexValueType>(graphName)
 
         /* Creates all vertices in graph */
-        while (newGraph.vertices.size < vertexQuantity) {
+        while (newGraph.vertices.size < verticesQuantity) {
             newGraph.addVertex(vertexInitialValue)
         }
 
         /* Creates random edges between vertices */
         while (newGraph.edges.size < edgesQuantity) {
-            val randomInitialVertex = newGraph.vertices[Random.nextInt(vertexQuantity)]
-            val randomArrivalVertex = newGraph.vertices[Random.nextInt(vertexQuantity)]
+            val randomInitialVertex = newGraph.vertices[Random.nextInt(verticesQuantity)]
+            val randomArrivalVertex = newGraph.vertices[Random.nextInt(verticesQuantity)]
 
             if (randomInitialVertex != randomArrivalVertex) {
                 try { newGraph.addEdge(randomInitialVertex, randomArrivalVertex, edgeInitialCost) }
@@ -41,28 +41,28 @@ object GraphFactory {
 
     @Throws(InvalidVertex::class, InvalidEdge::class)
     fun <VertexValueType> createBipartiteGraph(graphName:String,
-                                               firstPartitionVertexQuantity: Int,
-                                               secondPartitionVertexQuantity: Int,
+                                               firstPartitionVerticesQuantity: Int,
+                                               secondPartitionVerticesQuantity: Int,
                                                edgesQuantity: Int,
                                                vertexInitialValue: VertexValueType,
                                                edgeInitialCost: Double = 0.0): DefaultGraph<VertexValueType> {
-        if (edgesQuantity > (firstPartitionVertexQuantity * secondPartitionVertexQuantity))
+        if (edgesQuantity > (firstPartitionVerticesQuantity * secondPartitionVerticesQuantity))
             throw InvalidEdge("Too many edges")
 
-        if (secondPartitionVertexQuantity < 0)
+        if (secondPartitionVerticesQuantity < 0)
             throw InvalidEdge("Too few edges")
 
         val newGraph = DefaultGraph<VertexValueType>(graphName)
 
         /* Creates all vertices in graph */
-        while (newGraph.vertices.size < firstPartitionVertexQuantity + secondPartitionVertexQuantity) {
+        while (newGraph.vertices.size < firstPartitionVerticesQuantity + secondPartitionVerticesQuantity) {
             newGraph.addVertex(vertexInitialValue)
         }
 
         /* Creates random edges between vertices */
         while (newGraph.edges.size < edgesQuantity) {
-            val randomInitialVertex = newGraph.vertices[Random.nextInt(firstPartitionVertexQuantity)]
-            val randomArrivalVertex = newGraph.vertices[firstPartitionVertexQuantity + Random.nextInt(firstPartitionVertexQuantity)]
+            val randomInitialVertex = newGraph.vertices[Random.nextInt(firstPartitionVerticesQuantity)]
+            val randomArrivalVertex = newGraph.vertices[firstPartitionVerticesQuantity + Random.nextInt(firstPartitionVerticesQuantity)]
 
             try { newGraph.addEdge(randomInitialVertex, randomArrivalVertex, edgeInitialCost) }
             catch (e : InvalidEdge) { continue }
@@ -72,14 +72,14 @@ object GraphFactory {
 
     @Throws(InvalidVertex::class, InvalidEdge::class)
     fun <VertexValueType> createCompleteGraph(graphName:String,
-                                              vertexQuantity: Int,
+                                              verticesQuantity: Int,
                                               vertexInitialValue: VertexValueType,
                                               edgeInitialCost: Double = 0.0): DefaultGraph<VertexValueType> {
 
         val newGraph = DefaultGraph<VertexValueType>(graphName)
 
         /* Creates all vertices in graph */
-        while (newGraph.vertices.size < vertexQuantity) {
+        while (newGraph.vertices.size < verticesQuantity) {
             newGraph.addVertex(vertexInitialValue)
         }
 
