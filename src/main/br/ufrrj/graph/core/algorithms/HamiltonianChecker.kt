@@ -66,7 +66,7 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is connected?
      */
     private fun isConnected(): Boolean {
-        print("Checking if graph is connected (Necessary Condition)... ")
+        print("${if (useBruteForce) "[BRUTEFORCE] " else "[BFS] "}Checking if graph is connected (Necessary Condition)... ")
         graph?.let {
             if (it.edges.isEmpty())
                 return false
