@@ -3,8 +3,8 @@ package br.ufrrj.graph.core.algorithms
 import br.ufrrj.graph.core.DefaultGraph
 import br.ufrrj.graph.core.base.Vertex
 import br.ufrrj.graph.core.exceptions.InvalidGraph
-import br.ufrrj.graph.core.utils.measureTimeMillis
 import java.util.*
+import kotlin.math.min
 import kotlin.random.Random
 
 /**
@@ -14,6 +14,7 @@ import kotlin.random.Random
 class HamiltonianChecker<VertexValueType> {
     private var useBruteForce: Boolean = false
     private var graph: DefaultGraph<VertexValueType>? = null
+    private var timer = 0
 
     fun withGraph(graph: DefaultGraph<VertexValueType>, useBruteForce: Boolean = false): HamiltonianChecker<VertexValueType> {
         this.graph = graph
@@ -27,6 +28,7 @@ class HamiltonianChecker<VertexValueType> {
 
         println("Using brute force? $useBruteForce")
 
+        /* Checks if the graph is complete - Sufficient Condition */
         val isComplete = isComplete()
         print(if (isComplete) "✓" else "✗")
         println(" ($isComplete)")
@@ -36,6 +38,7 @@ class HamiltonianChecker<VertexValueType> {
             return false
         }
 
+        /* Checks Dirac's Theorem - Sufficient Condition */
         val checkDiracTheorem = checkDiracTheorem()
         print(if (checkDiracTheorem) "✓" else "✗")
         println(" ($checkDiracTheorem)")
@@ -45,23 +48,15 @@ class HamiltonianChecker<VertexValueType> {
             return false
         }
 
+        /* Checks if the graph is connected - Necessary Condition */
         val isConnected = isConnected()
         print(if (isConnected) "✓" else "✗")
         println(" ($isConnected)")
 
-        if (!isConnected) {
-            println("Is this graph hamiltonian? ✗ ($isConnected)")
-            return false
-        }
-
+        /* Checks if the graph is connected - Necessary Condition */
         val isBiconnected = isBiconnected()
         print(if (isBiconnected) "✓" else "✗")
         println(" ($isBiconnected)")
-
-        if (!isBiconnected) {
-            println("Is this graph hamiltonian? ✗ ($isBiconnected)")
-            return false
-        }
 
         return true
     }
@@ -71,7 +66,7 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is connected?
      */
     private fun isConnected(): Boolean {
-        print("Checking if graph is connected... ")
+        print("Checking if graph is connected (Necessary Condition)... ")
         graph?.let {
             if (it.edges.isEmpty())
                 return false
@@ -140,12 +135,12 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is biconnected?
      */
     private fun isBiconnected(): Boolean {
-        print("Checking if graph is biconnected... ")
+        print("[DFS] Checking if graph is biconnected (Necessary Condition)... ")
         graph?.let {
             if (it.edges.isEmpty())
                 return false
 
-            return if (useBruteForce) findArticulationUsingBruteForce() else findArticulationUsingDFS()
+            return findArticulationUsingDFS()
         }
         return false
     }
@@ -168,9 +163,58 @@ class HamiltonianChecker<VertexValueType> {
      */
     private fun findArticulationUsingDFS(): Boolean {
         graph?.let {
-            return true
+            val visitController = BooleanArray(it.vertices.size) { false }
+            val discoveredTime = IntArray(it.vertices.size) { 0 }
+            val low = IntArray(it.vertices.size) { Int.MAX_VALUE }
+            val parent = IntArray(it.vertices.size) { -1 }
+            val articulationPoints = BooleanArray(it.vertices.size) { false }
+
+            it.vertices.forEachIndexed { index, _ ->
+                if (!visitController[index])
+                    dfsArticulationPoints(index, visitController, discoveredTime, low, parent, articulationPoints)
+            }
+            return articulationPoints.all { false }
         }
         return false
+    }
+
+    private fun dfsArticulationPoints(currentVertexIndex: Int,
+                                      visitController: BooleanArray,
+                                      discoveredTime: IntArray,
+                                      low: IntArray,
+                                      parent: IntArray,
+                                      articulationPoints: BooleanArray) {
+        graph?.let {
+            val currentVertex = it.vertices[currentVertexIndex]
+            var children = 0
+            visitController[currentVertexIndex] = true
+            low[currentVertexIndex] = timer++
+            discoveredTime[currentVertexIndex] = low[currentVertexIndex]
+
+            val neighbors = currentVertex.getNeighbors(it).map { edge -> edge.arrivalVertex }.toList().iterator()
+            while (neighbors.hasNext()) {
+                children++
+
+                val nextVertex = neighbors.next()
+                val nextVertexIndex = it.vertices.indexOf(nextVertex)
+                if (!visitController[nextVertexIndex]) {
+                    parent[nextVertexIndex] = currentVertex.id.toInt()
+                    dfsArticulationPoints(nextVertexIndex, visitController, discoveredTime, low, parent, articulationPoints)
+
+                    low[currentVertexIndex] = min(low[currentVertexIndex], low[nextVertexIndex])
+
+                    if (parent[currentVertexIndex] == -1 && children > 1)
+                        articulationPoints[currentVertexIndex] = true
+
+                    if (parent[currentVertexIndex] != -1 && low[nextVertexIndex] >= discoveredTime[currentVertexIndex])
+                        articulationPoints[currentVertexIndex] = true
+
+                }
+                else if (currentVertex.id.toInt() != parent[nextVertexIndex]) {
+                    low[currentVertexIndex] = min(low[currentVertexIndex], discoveredTime[nextVertexIndex])
+                }
+            }
+        }
     }
 
     /**
@@ -178,7 +222,7 @@ class HamiltonianChecker<VertexValueType> {
      * Did this graph is Kn complete and n >= 3?
      */
     private fun isComplete(): Boolean {
-        print("Checking if graph is complete... ")
+        print("Checking if graph is complete (Sufficient Condition)... ")
         graph?.let {
             if (it.vertices.size < 3)
                 return false
@@ -194,7 +238,7 @@ class HamiltonianChecker<VertexValueType> {
      * Dirac's Theorem (1952)
      */
     private fun checkDiracTheorem(): Boolean {
-        print("Checking of Dirac's Theorem... ")
+        print("Checking of Dirac's Theorem (Sufficient Condition)... ")
         graph?.let {
             if (it.vertices.size < 3)
                 return false
