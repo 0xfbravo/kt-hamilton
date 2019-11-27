@@ -3,7 +3,7 @@ package br.ufrrj.graph
 import br.ufrrj.graph.core.DefaultGraph
 import br.ufrrj.graph.core.algorithms.HamiltonianChecker
 import br.ufrrj.graph.core.utils.GraphFactory
-import br.ufrrj.graph.core.utils.measureTimeMillis
+import br.ufrrj.graph.core.utils.measure
 import java.util.*
 
 fun main() {
@@ -41,13 +41,13 @@ private fun createSimpleGraphAndCheck() {
     print("Use brute force? (true/false) ")
     val useBruteForce = reader.nextBoolean()
 
-    measureTimeMillis({ time -> println("Execution Time: ${time}ms") }) {
+    measure {
         println("Creating new graph G(V,E)...")
         graph = GraphFactory.createSimpleGraph("Graph", verticesQuantity, edgesQuantity, vertexInitialValue)
         println(graph)
     }
 
-    measureTimeMillis({ time -> println("Execution Time: ${time}ms") }) {
+    measure {
         hamiltonianChecker.withGraph(graph!!, useBruteForce).execute()
     }
 }
@@ -74,13 +74,13 @@ private fun createBipartiteGraphAndCheck() {
     print("Use brute force? (true/false) ")
     val useBruteForce = reader.nextBoolean()
 
-    measureTimeMillis({ time -> println("Execution Time: ${time}ms") }) {
+    measure {
         println("Creating new graph G(V,E)...")
         graph = GraphFactory.createBipartiteGraph("Graph", firstPartitionVerticesQuantity, secondPartitionVerticesQuantity, edgesQuantity, vertexInitialValue)
         println(graph)
     }
 
-    measureTimeMillis({ time -> println("Execution Time: ${time}ms") }) {
+    measure {
         hamiltonianChecker.withGraph(graph!!, useBruteForce).execute()
     }
 }
@@ -101,13 +101,13 @@ private fun createCompleteGraphAndCheck() {
     print("Use brute force? (true/false) ")
     val useBruteForce = reader.nextBoolean()
 
-    measureTimeMillis({ time -> println("Execution Time: ${time}ms") }) {
+    measure {
         println("Creating new graph G(V,E)...")
         graph = GraphFactory.createCompleteGraph("Graph", verticesQuantity, vertexInitialValue)
         println(graph)
     }
 
-    measureTimeMillis({ time -> println("Execution Time: ${time}ms") }) {
+    measure {
         hamiltonianChecker.withGraph(graph!!, useBruteForce).execute()
     }
 }
