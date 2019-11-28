@@ -8,6 +8,7 @@ import java.util.*
 
 fun main() {
     val reader = Scanner(System.`in`)
+    reader.useLocale(Locale.getDefault())
     println("== UFRRJ - Hamiltonian Checker")
     println("Type the number of graph do you want to check")
     println("\t- Simple Graph: 0")
@@ -15,15 +16,14 @@ fun main() {
     println("\t- Complete Graph: 2")
 
     when (reader.nextInt()) {
-        0 -> createSimpleGraphAndCheck()
-        1 -> createBipartiteGraphAndCheck()
-        2 -> createCompleteGraphAndCheck()
+        0 -> createSimpleGraphAndCheck(reader)
+        1 -> createBipartiteGraphAndCheck(reader)
+        2 -> createCompleteGraphAndCheck(reader)
         else -> println("Invalid option... Shutting down")
     }
 }
 
-private fun createSimpleGraphAndCheck() {
-    val reader = Scanner(System.`in`)
+private fun createSimpleGraphAndCheck(reader: Scanner) {
     val hamiltonianChecker = HamiltonianChecker<Int>()
     var graph: DefaultGraph<Int>? = null
 
@@ -52,8 +52,7 @@ private fun createSimpleGraphAndCheck() {
     }
 }
 
-private fun createBipartiteGraphAndCheck() {
-    val reader = Scanner(System.`in`)
+private fun createBipartiteGraphAndCheck(reader: Scanner) {
     val hamiltonianChecker = HamiltonianChecker<Int>()
     var graph: DefaultGraph<Int>? = null
 
@@ -85,8 +84,7 @@ private fun createBipartiteGraphAndCheck() {
     }
 }
 
-private fun createCompleteGraphAndCheck() {
-    val reader = Scanner(System.`in`)
+private fun createCompleteGraphAndCheck(reader: Scanner) {
     val hamiltonianChecker = HamiltonianChecker<Int>()
     var graph: DefaultGraph<Int>? = null
 
