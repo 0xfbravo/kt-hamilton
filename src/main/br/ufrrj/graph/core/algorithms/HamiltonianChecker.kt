@@ -151,7 +151,6 @@ class HamiltonianChecker<VertexValueType> {
      */
     private fun findArticulationUsingBruteForce(): Boolean {
         graph?.let {
-            val graphCopy = it.copy()
             return true
         }
         return false
