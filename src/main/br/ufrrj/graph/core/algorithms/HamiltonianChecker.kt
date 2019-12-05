@@ -22,7 +22,7 @@ class HamiltonianChecker<VertexValueType> {
         return this
     }
 
-    fun execute(): Boolean {
+    fun execute() {
         if (graph == null)
             throw InvalidGraph("The graph wasn't defined yet.")
 
@@ -33,20 +33,10 @@ class HamiltonianChecker<VertexValueType> {
         print(if (isComplete) "✓" else "✗")
         println(" ($isComplete)")
 
-        if (!isComplete) {
-            println("Is this graph hamiltonian? ✗ ($isComplete)")
-            return false
-        }
-
         /* Checks Dirac's Theorem - Sufficient Condition */
         val checkDiracTheorem = checkDiracTheorem()
         print(if (checkDiracTheorem) "✓" else "✗")
         println(" ($checkDiracTheorem)")
-
-        if (!checkDiracTheorem) {
-            println("Is this graph hamiltonian? ✗ ($checkDiracTheorem)")
-            return false
-        }
 
         /* Checks if the graph is connected - Necessary Condition */
         val isConnected = isConnected()
@@ -57,8 +47,6 @@ class HamiltonianChecker<VertexValueType> {
         val isBiconnected = isBiconnected()
         print(if (isBiconnected) "✓" else "✗")
         println(" ($isBiconnected)")
-
-        return true
     }
 
     /**
