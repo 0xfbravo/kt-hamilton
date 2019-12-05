@@ -22,7 +22,7 @@ apply plugin: "com.github.johnrengelman.shadow"
 mainClassName = "br.ufrrj.graph.MainKt"
 
 group = "UfrrjGraph"
-version = "0.2.0"
+version = "0.2.1"
 sourceCompatibility = 1.8
 
 shadowJar {

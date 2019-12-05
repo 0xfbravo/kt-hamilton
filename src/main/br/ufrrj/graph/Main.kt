@@ -106,6 +106,7 @@ private fun createCompleteGraphAndCheck(reader: Scanner) {
     }
 
     measure {
+        println("Checking if graph G(V,E) is hamiltonian...")
         hamiltonianChecker.withGraph(graph!!, useBruteForce).execute()
     }
 }
